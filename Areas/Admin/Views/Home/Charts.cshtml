@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Biểu đồ thống kê";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Nạp thư viện Google Charts -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div class="container mt-4">
+    <div class="panel panel-default" style="border-color: #d6e9c6; margin-top: 30px;">
+        <div class="panel-heading" style="background-color: #dff0d8; color: #3c763d;">
+            <h4 class="panel-title" style="font-weight: bold;">BIỂU ĐỒ THỐNG KÊ</h4>
+        </div>
+        <div class="panel-body text-center">
+            <!-- Khung chứa biểu đồ -->
+            <div id="piechart" style="width: 800px; height: 500px; display: inline-block;"></div>
+        </div>
+        <div class="panel-footer bg-white">
+            <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="btn btn-default">Quay lại bảng thống kê</a>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        // Load thư viện vẽ biểu đồ
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // Gọi AJAX tới Controller để lấy dữ liệu JSON
+            $.ajax({
+                url: '@Url.Action("GetChartData", "Home", new { area = "Admin" })',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Chuyển đổi mảng JSON thành mảng của Google DataTable
+                    var dataTable = google.visualization.arrayToDataTable(data);
+
+                    var options = {
+                        title: 'TỶ LỆ HÀNG HÓA',
+                        is3D: true, // Bật hiệu ứng 3D giống hình mẫu
+                        pieSliceText: 'percentage', // Hiển thị phần trăm
+                        fontName: 'Arial',
+                        titleTextStyle: { fontSize: 18, bold: true }
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    chart.draw(dataTable, options);
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi tải dữ liệu biểu đồ.");
+                }
+            });
+        }
+    </script>
+}

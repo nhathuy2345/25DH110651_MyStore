@@ -1,35 +1,37 @@
 ﻿@model IEnumerable<_25DH110651_MyStore.Models.Category>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Danh mục";
+    // ⬇️ CHÚ Ý DÒNG NÀY: Phải dùng Layout của Admin
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>DANH SÁCH DANH MỤC SẢN PHẨM</h2>
+<div class="container mt-4">
+    <h3 style="color: #5cb85c; font-weight: bold;">DANH SÁCH DANH MỤC SẢN PHẨM</h3>
+    <hr />
 
-<p>
-    @Html.ActionLink("Thêm mới", "Create", null, new {@class = "btn btn-primary"})
-</p>
-<table class="table bg-info col-lg-12 col-md-6 col-sm-3">
-    <tr>
-        <th class="bg-success col-lg-8 col-md-4 col-sm-2">
-            @*Html.DisplayNameFor(model => model.CategoryName)*@
-            TÊN DANH MỤC
-        </th>
-        <th class="bg-success col-lg-4 col-md-2 col-sm-1"></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+    </p>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.ActionLink("Cập nhật", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary btn-sm" })
-                @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-primary btn-sm" })
-            </td>
-</tr>
-}
-
-</table>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="bg-light">
+                <th style="width: 70%;">TÊN DANH MỤC</th>
+                <th>THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                    <td>
+                        @Html.ActionLink("Cập nhật", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,25 +1,38 @@
-﻿@model _25DH110651_MyStore.Models.Category
+﻿@model IEnumerable<_25DH110651_MyStore.Models.Category>
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Index";
+    // Chú ý: Đảm bảo file _AdminLayout.cshtml thực sự tồn tại
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2 class="btn-success">CẬP NHẬT DANH MỤC</h2>
+<h2>DANH SÁCH DANH MỤC SẢN PHẨM</h2>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Category</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.CategoryID)
-
-    @*Nhúng Partial view vào form cha*@
-    @Html.Partial("PVCreateEditCategory", Model)
-</div>
-
-}
+<p>
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table bg-info table-responsive">
+    <thead>
+        <tr>
+            <th class="bg-success col-md-8">
+                TÊN DANH MỤC
+            </th>
+            <th class="bg-success col-md-4"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.CategoryID }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-primary btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

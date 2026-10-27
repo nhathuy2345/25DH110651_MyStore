@@ -1,19 +1,12 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div>
-        TRANG THÔNG TIN ADMIN
-    </div>
-</body>
-</html>
+<div class="jumbotron text-center mt-5">
+    <h1 class="display-4">Chào mừng đến với My Store!</h1>
+    <p class="lead">Đây là trang chủ dành cho Khách hàng mua sắm.</p>
+    <hr class="my-4">
+    <p>Vui lòng đăng nhập để tiếp tục.</p>
+    <a class="btn btn-primary btn-lg" href="@Url.Action("Login", "Account")" role="button">Đăng nhập ngay</a>
+</div>

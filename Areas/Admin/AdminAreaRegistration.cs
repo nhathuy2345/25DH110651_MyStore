@@ -12,12 +12,14 @@ namespace _25DH110651_MyStore.Areas.Admin
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                // ⬇️ THÊM DÒNG NÀY: Chỉ định rõ chỉ tìm controller trong Area Admin
+                namespaces: new[] { "_25DH110651_MyStore.Areas.Admin.Controllers" }
             );
         }
     }

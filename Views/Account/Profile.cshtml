@@ -1,0 +1,48 @@
+﻿@model _25DH110651_MyStore.Models.Customer
+
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">THÔNG TIN CÁ NHÂN</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%;">Tên đăng nhập:</th>
+                                <td>@Model.Username</td>
+                            </tr>
+                            <tr>
+                                <th>Họ và Tên:</th>
+                                <td>@Model.CustomerName</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>@Model.CustomerEmail</td>
+                            </tr>
+                            <tr>
+                                <th>Số điện thoại:</th>
+                                <td>@(string.IsNullOrEmpty(Model.CustomerPhone) ? "Chưa cập nhật" : Model.CustomerPhone)</td>
+                            </tr>
+                            <tr>
+                                <th>Địa chỉ:</th>
+                                <td>@(string.IsNullOrEmpty(Model.CustomerAddress) ? "Chưa cập nhật" : Model.CustomerAddress)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-between">
+                    @Html.ActionLink("Đăng xuất", "Logout", null, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Chỉnh sửa thông tin", "EditProfile", null, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

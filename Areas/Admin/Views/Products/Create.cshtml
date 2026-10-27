@@ -1,0 +1,82 @@
+﻿@model _25DH110651_MyStore.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml"; 
+}
+
+<div class="container" style="margin-top: 20px;">
+    <h2>Thêm mới Sản phẩm</h2>
+    <hr />
+
+    @using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- Chọn Danh mục -->
+            <div class="form-group">
+                <label class="control-label col-md-2">Danh mục</label>
+                <div class="col-md-6">
+                    @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Tên sản phẩm -->
+            <div class="form-group">
+                <label class="control-label col-md-2">Tên sản phẩm</label>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Mô tả -->
+            <div class="form-group">
+                <label class="control-label col-md-2">Mô tả</label>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.ProductDecription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProductDecription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Đơn giá -->
+            <div class="form-group">
+                <label class="control-label col-md-2">Đơn giá</label>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Hình ảnh -->
+            <div class="form-group">
+                <label class="control-label col-md-2">Hình ảnh</label>
+                <div class="col-md-6">
+                    <!-- Nếu chỉ nhập đường dẫn (chuỗi) thì dùng dòng dưới -->
+                    @Html.EditorFor(model => model.ProductImage, new { htmlAttributes = new { @class = "form-control" } })
+
+                    <!-- Nếu muốn upload file từ máy tính thì dùng thẻ input file này -->
+                    <!-- <input type="file" name="ImageUpload" class="form-control" /> -->
+
+                    @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Nút Submit -->
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                    @Html.ActionLink("Trở về danh sách", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

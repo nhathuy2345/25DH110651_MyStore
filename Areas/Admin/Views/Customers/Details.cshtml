@@ -1,0 +1,46 @@
+﻿@model _25DH110651_MyStore.Models.Customer
+
+@{
+    ViewBag.Title = "Chi tiết khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container" style="margin-top: 20px;">
+    <h3 style="color: #5cb85c; font-weight: bold;">CHI TIẾT KHÁCH HÀNG</h3>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th style="width: 30%;">Mã khách hàng:</th>
+                    <td>@Html.DisplayFor(model => model.CustomerID)</td>
+                </tr>
+                <tr>
+                    <th>Tên đăng nhập:</th>
+                    <td>@Html.DisplayFor(model => model.Username)</td>
+                </tr>
+                <tr>
+                    <th>Họ và Tên:</th>
+                    <td>@Html.DisplayFor(model => model.CustomerName)</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>@Html.DisplayFor(model => model.CustomerEmail)</td>
+                </tr>
+                <tr>
+                    <th>Số điện thoại:</th>
+                    <td>@Html.DisplayFor(model => model.CustomerPhone)</td>
+                </tr>
+                <tr>
+                    <th>Địa chỉ:</th>
+                    <td>@Html.DisplayFor(model => model.CustomerAddress)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.ActionLink("Trở về danh sách", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

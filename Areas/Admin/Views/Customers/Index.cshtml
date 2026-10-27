@@ -1,0 +1,85 @@
+﻿@model IEnumerable<_25DH110651_MyStore.Models.Customer>
+
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h3 style="color: #5cb85c; font-weight: bold;">QUẢN LÝ KHÁCH HÀNG</h3>
+    <hr />
+
+    @using (Html.BeginForm("DeleteSelected", "Customers", FormMethod.Post))
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <!-- Tiêu đề bảng (Màu xanh lá nhạt giống hình) -->
+                <thead>
+                    <tr style="background-color: #e6f4ea; color: #2e7d32;">
+                        <th style="width: 40px; text-align: center; vertical-align: middle;">
+                            <input type="checkbox" id="checkAll" style="transform: scale(1.2); cursor: pointer;" />
+                        </th>
+                        <th style="vertical-align: middle;">MÃ KH</th>
+                        <th style="vertical-align: middle;">HỌ VÀ TÊN</th>
+                        <th style="vertical-align: middle;">ĐỊA CHỈ EMAIL</th>
+                        <th style="vertical-align: middle;">SỐ ĐIỆN THOẠI</th>
+                        <th style="vertical-align: middle;">TÊN ĐĂNG NHẬP</th>
+                        <th style="vertical-align: middle;">THAO TÁC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <input type="checkbox" name="selectedIds" value="@item.CustomerID" class="rowCheckbox" style="transform: scale(1.2); cursor: pointer;" />
+                            </td>
+                            <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.CustomerID)</td>
+                            <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.CustomerName)</td>
+                            <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.CustomerEmail)</td>
+                            <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.CustomerPhone)</td>
+                            <td style="vertical-align: middle;">@Html.DisplayFor(modelItem => item.Username)</td>
+                            <td style="vertical-align: middle;">
+                                @Html.ActionLink("Chi tiết", "Details", new { id = item.CustomerID }, new { @class = "btn btn-info btn-sm text-white" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- KHUNG CHỨA CÁC NÚT THAO TÁC HÀNG LOẠT (Giống hình mẫu) -->
+        <div class="d-flex flex-wrap gap-2 mt-3 p-3 bg-light border rounded">
+            <button type="button" class="btn btn-outline-dark" id="btnSelectAll">Chọn tất cả</button>
+            <button type="button" class="btn btn-outline-dark" id="btnDeselectAll">Bỏ chọn tất cả</button>
+            <button type="submit" class="btn btn-outline-dark" onclick="return confirm('Bạn có chắc muốn xóa các mục đã chọn?');">Xóa các mục chọn</button>
+
+            <!-- Nút Nhập thêm (Trỏ tới trang tạo mới) -->
+            <a href="@Url.Action("Create", "Customers", new { area = "Admin" })" class="btn btn-outline-dark">Nhập thêm</a>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Khi click vào ô checkbox trên cùng (Chọn tất cả)
+            $("#checkAll").click(function () {
+                $(".rowCheckbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Nút "Chọn tất cả"
+            $("#btnSelectAll").click(function () {
+                $("#checkAll").prop('checked', true);
+                $(".rowCheckbox").prop('checked', true);
+            });
+
+            // Nút "Bỏ chọn tất cả"
+            $("#btnDeselectAll").click(function () {
+                $("#checkAll").prop('checked', false);
+                $(".rowCheckbox").prop('checked', false);
+            });
+        });
+    </script>
+}
