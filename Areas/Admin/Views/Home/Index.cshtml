@@ -1,12 +1,44 @@
-﻿@{
-    ViewBag.Title = "Trang chủ";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model IEnumerable<_25DH110651_MyStore.Models.ViewModel.CategoryStatisticVM>
+
+@{
+    ViewBag.Title = "Trang chủ Admin";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="jumbotron text-center mt-5">
-    <h1 class="display-4">Chào mừng đến với My Store!</h1>
-    <p class="lead">Đây là trang chủ dành cho Khách hàng mua sắm.</p>
-    <hr class="my-4">
-    <p>Vui lòng đăng nhập để tiếp tục.</p>
-    <a class="btn btn-primary btn-lg" href="@Url.Action("Login", "Account")" role="button">Đăng nhập ngay</a>
+<div class="container mt-4">
+    <h2 style="color: #fff; background-color: #000; padding: 10px;">Admin Site – Trang Home</h2>
+
+    <div class="panel panel-default" style="margin-top: 30px; border-color: #d6e9c6;">
+        <div class="panel-heading" style="background-color: #dff0d8; color: #3c763d;">
+            <h4 class="panel-title" style="font-weight: bold;">THỐNG KÊ HÀNG HÓA TỪNG LOẠI</h4>
+        </div>
+        <div class="panel-body p-0">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr style="background-color: #dff0d8; color: #3c763d;">
+                        <th>LOẠI HÀNG</th>
+                        <th>SỐ LƯỢNG</th>
+                        <th>GIÁ CAO NHẤT</th>
+                        <th>GIÁ THẤP NHẤT</th>
+                        <th>GIÁ TRUNG BÌNH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CategoryName</td>
+                            <td>@item.Quantity</td>
+                            <td>$@(item.MaxPrice.HasValue ? item.MaxPrice.Value.ToString("0.00") : "0")</td>
+                            <td>$@(item.MinPrice.HasValue ? item.MinPrice.Value.ToString("0.00") : "0")</td>
+                            <td>$@(item.AvgPrice.HasValue ? item.AvgPrice.Value.ToString("0.00") : "0")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer bg-white">
+            <a href="@Url.Action("Charts", "Home", new { area = "Admin" })" class="btn btn-default">Xem biểu đồ</a>
+        </div>
+    </div>
 </div>

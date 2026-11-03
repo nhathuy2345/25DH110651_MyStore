@@ -1,0 +1,167 @@
+﻿/* Style cho phần BANNER */
+.banner {
+	background-image: url('../Content/images/anh mystore banner.jpg');
+	background-size: cover;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 300px;
+}
+
+.banner-container {
+	text-align: center;
+	color: white;
+}
+
+	.banner-container h2 {
+		font-size: 2.5rem;
+	}
+
+	.banner-container p {
+		font-size: 1.2rem;
+	}
+
+.btnBanner {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: darkorange;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/* Style cho phần SEARCH */
+.searchProd {
+	text-align: center; /* THÊM DÒNG NÀY: Căn giữa tiêu đề Tìm kiếm sản phẩm */
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+	.searchProd h2 {
+		color: brown; /* THÊM DÒNG NÀY: Đổi màu chữ giống mẫu */
+		font-size: 2rem; /* THÊM DÒNG NÀY */
+		margin-bottom: 15px;
+	}
+
+.search-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.search-input {
+	width: 500px;
+	padding: 10px;
+	border: 1px solid #000000;
+	border-radius: 5px 0 0 5px;
+}
+
+.search-button {
+	padding: 10px 20px;
+	background-color: brown;
+	border: none;
+	border-radius: 0 5px 5px 0;
+	cursor: pointer;
+	color: white;
+}
+
+/* Style của FEATURE PRODUCT */
+.featureProd {
+	text-align: left;
+}
+
+.feature-container {
+	display: flex;
+	overflow-x: auto; /* Cho phép cuộn ngang */
+	scroll-snap-type: x mandatory;
+	padding-bottom: 15px; /* THÊM DÒNG NÀY: Tránh bị cắt bóng đổ */
+}
+
+.fproduct-item {
+	width: 168px;
+	max-height: 400px;
+	margin: 10px;
+	border: 1px solid #dcdcdc; /* SỬA DÒNG NÀY: Đổi thành viền mỏng cho đẹp */
+	border-radius: 10px;
+	flex: 0 0 auto;
+	scroll-snap-align: start;
+	text-align: center; /* THÊM DÒNG NÀY: Căn giữa tên và giá sản phẩm */
+	padding-bottom: 10px; /* THÊM DÒNG NÀY */
+	background-color: white; /* THÊM DÒNG NÀY */
+}
+
+	.fproduct-item img {
+		padding: 5px;
+		width: 100%; /* THÊM DÒNG NÀY: Ép ảnh vừa khung */
+		max-height: 160px;
+		object-fit: contain; /* THÊM DÒNG NÀY: Đảm bảo ảnh không bị méo */
+		background-color: transparent;
+	}
+
+/* Style của LIST PRODUCT */
+.listProduct {
+	text-align: left;
+}
+
+.list-container {
+	list-style-type: none;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* SỬA: Tăng minmax lên 150px cho đẹp */
+	gap: 15px; /* THÊM DÒNG NÀY: Tạo khoảng cách giữa các ô */
+	padding: 0;
+	margin: 0;
+}
+
+.lproduct-item {
+	max-height: 500px;
+	border: 1px solid #dcdcdc; /* SỬA DÒNG NÀY */
+	border-radius: 10px;
+	text-align: center; /* THÊM DÒNG NÀY: Căn giữa chữ */
+	padding-bottom: 10px; /* THÊM DÒNG NÀY */
+	background-color: white; /* THÊM DÒNG NÀY */
+}
+
+	.lproduct-item img {
+		padding: 5px;
+		width: 100%; /* THÊM DÒNG NÀY */
+		max-height: 160px; /* SỬA DÒNG NÀY: Cho bằng với Feature cho đều */
+		object-fit: contain; /* THÊM DÒNG NÀY */
+		background-color: transparent;
+	}
+
+/* các thuộc tính chung của FEATURE và NEW sản phẩm*/
+.featureProd h2, .listProduct h2 {
+	font-size: 2em;
+	margin-bottom: 20px;
+	color: brown;
+	text-align: center;
+}
+
+.prodPrice {
+	font-size: larger;
+	color: blue;
+	font-weight: bolder;
+	padding: 10px 5px 0px 5px;
+}
+
+.prodName {
+	color: black;
+	font-weight: bold;
+	padding: 0px 5px 0px 5px;
+	/* THÊM 3 DÒNG NÀY: Để tên sản phẩm dài không bị vỡ khung */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.prodCate {
+	color: black;
+	padding: 0px 5px 0px 5px;
+	margin-bottom: 10px;
+}
+
+.prodSale {
+	font-size: small;
+	color: dimgray;
+	padding: 0px 5px 0px 5px;
+}

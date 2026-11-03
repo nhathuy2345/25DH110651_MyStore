@@ -104,13 +104,26 @@ namespace _25DH110651_MyStore.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDecription,ProductPrice,ProductImage")] Product product)
+        
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage")] Product product)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Products.Add(product);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    // Bắt lỗi và in ra chi tiết
+                    var errorMessages = ex.EntityValidationErrors
+                            .SelectMany(x => x.ValidationErrors)
+                            .Select(x => x.PropertyName + ": " + x.ErrorMessage);
+                    var fullErrorMessage = string.Join("; ", errorMessages);
+                    throw new Exception("LỖI DATABASE: " + fullErrorMessage);
+                }
             }
 
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);

@@ -183,6 +183,8 @@
     </Compile>
     <Compile Include="Models\ViewModel\CategoryStatisticVM.cs" />
     <Compile Include="Models\ViewModel\CustomerVM.cs" />
+    <Compile Include="Models\ViewModel\HomeProductVm.cs" />
+    <Compile Include="Models\ViewModel\ProductDetailsVM.cs" />
     <Compile Include="Models\ViewModel\ProductSearchVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -203,6 +205,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\CustomerHome.css" />
+    <Content Include="Content\images\mắc biếc.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -274,6 +278,12 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Shared\_CustomerLayout.cshtml" />
+    <Content Include="Views\Home\_PVFeatureProduct.cshtml" />
+    <Content Include="Views\Home\_PVNewProduct.cshtml" />
+    <Content Include="Views\Home\ProductDetails.cshtml" />
+    <Content Include="Views\Home\_PVRelatedProduct.cshtml" />
+    <Content Include="Views\Home\_PVTopProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
