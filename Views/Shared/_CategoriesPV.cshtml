@@ -1,0 +1,5 @@
+﻿@model IEnumerable<_25DH110651_MyStore.Models.Category>
+@foreach (var cat in Model)
+{
+    <li class="nav-item"><a class="nav-link text-dark fw-bold px-3" href="@Url.Action("ProductList", "Home", new { categoryId = cat.CategoryID })">@cat.CategoryName</a></li>
+}

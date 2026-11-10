@@ -46,6 +46,17 @@ namespace _25DH110651_MyStore.Controllers
                 .OrderBy(p => p.OrderDetails.Sum(od => (int?)od.Quantity) ?? 0)
                 .ToPagedList(pageNumber, pageSize);
 
+            // --- THÊM ĐOẠN NÀY ĐỂ HIỂN THỊ MENU TÀI KHOẢN & GIỎ HÀNG ---
+            var pmmodel = new PersonalMenuVM();
+            pmmodel.IsLoggedIn = User.Identity.IsAuthenticated;
+            if (pmmodel.IsLoggedIn) pmmodel.Username = User.Identity.Name;
+            var cart = Session["Cart"] as Cart;
+            pmmodel.CartCount = (cart != null) ? cart.Items.Count() : 0;
+            ViewBag.pmmodel = pmmodel;
+            // -------------------------------------------------------------
+
+            
+
             return View(model);
         }
 
@@ -88,6 +99,47 @@ namespace _25DH110651_MyStore.Controllers
 
             // Tính tiền tạm tính
             model.estimatedValue = model.quantity * model.product.ProductPrice;
+
+            return View(model);
+        }
+        [ChildActionOnly]
+        public ActionResult MenuCategories()
+        {
+            var categories = db.Categories.ToList();
+            return PartialView("_CategoriesPV", categories);
+        }
+        public ActionResult ProductList(int? categoryId)
+        {
+            var products = db.Products.AsQueryable();
+            if (categoryId.HasValue) products = products.Where(p => p.CategoryID == categoryId.Value);
+
+            var pmmodel = new PersonalMenuVM();
+            pmmodel.IsLoggedIn = User.Identity.IsAuthenticated;
+            pmmodel.Username = User.Identity.Name;
+            var cart = Session["Cart"] as Cart;
+            pmmodel.CartCount = (cart != null) ? cart.Items.Count() : 0;
+            ViewBag.pmmodel = pmmodel;
+
+            return View(products.ToList());
+        }
+        public ActionResult ProductDetail(int? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            Product pro = db.Products.Find(id);
+            if (pro == null) return HttpNotFound();
+
+            var products = db.Products.Where(p => p.CategoryID == pro.CategoryID && p.ProductID != pro.ProductID).AsQueryable();
+            ProductDetailsVM model = new ProductDetailsVM();
+            model.product = pro;
+            model.RelatedProducts = products.OrderBy(p => p.ProductID).Take(8).ToList();
+            model.TopProducts = products.OrderByDescending(p => p.ProductID).Take(8).ToPagedList(1, 8);
+
+            var pmmodel = new PersonalMenuVM();
+            pmmodel.IsLoggedIn = User.Identity.IsAuthenticated;
+            pmmodel.Username = User.Identity.Name;
+            var cart = Session["Cart"] as Cart;
+            pmmodel.CartCount = (cart != null) ? cart.Items.Count() : 0;
+            ViewBag.pmmodel = pmmodel;
 
             return View(model);
         }

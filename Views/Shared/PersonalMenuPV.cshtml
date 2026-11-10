@@ -1,0 +1,29 @@
+﻿@model _25DH110651_MyStore.Models.ViewModel.PersonalMenuVM
+<ul class="navbar-nav ms-auto align-items-center">
+    <li class="nav-item"><a class="nav-link text-dark" href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Tài khoản</a>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+            @if (Model.IsLoggedIn)
+            {
+                <li><span class="dropdown-item-text fw-bold text-success">Hello, @Model.Username</span></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="@Url.Action("Profile", "Account")">Thông tin tài khoản</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("MyOrder", "Order")">Lịch sử mua hàng</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="@Url.Action("Logout", "Account")">Đăng xuất</a></li>
+            }
+            else
+            {
+                <li><a class="dropdown-item" href="@Url.Action("Login", "Account")">Đăng nhập</a></li>
+                <li><a class="dropdown-item" href="@Url.Action("Register", "Account")">Đăng ký</a></li>
+            }
+        </ul>
+    </li>
+    <li class="nav-item ms-3">
+        <a class="nav-link text-dark position-relative" href="@Url.Action("Index", "Cart")">
+            🛒 Giỏ hàng
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">@Model.CartCount</span>
+        </a>
+    </li>
+</ul>

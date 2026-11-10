@@ -1,0 +1,56 @@
+﻿@model _25DH110651_MyStore.Models.ViewModel.ProductDetailsVM
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row bg-white p-4 shadow-sm rounded">
+        <div class="col-md-4 text-center">
+            <img src="@Model.product.ProductImage" alt="@Model.product.ProductName" class="img-fluid" style="max-height: 350px; object-fit: contain;" />
+        </div>
+        <div class="col-md-5">
+            <h3 class="font-weight-bold">@Model.product.ProductName</h3>
+            <p>Đã bán: 0</p>
+            <h4 class="text-danger font-weight-bold">@Model.product.ProductPrice.ToString("N0") VNĐ</h4>
+            <hr />
+            <h5>Mô tả sản phẩm:</h5>
+            <p>@Model.product.ProductDecription</p>
+        </div>
+        <div class="col-md-3">
+            <div class="border p-3 rounded bg-light">
+                <h5>Số lượng</h5>
+                @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Get))
+                {
+                    <input type="hidden" name="id" value="@Model.product.ProductID" />
+                    <div class="input-group mb-3">
+                        <input type="number" name="quantity" value="1" min="1" class="form-control text-center" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary w-100 mb-2">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <hr class="mt-5" />
+
+    <h4 class="text-danger mb-3">Sản phẩm tương tự</h4>
+    <div class="row">
+        @foreach (var item in Model.RelatedProducts)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })">
+                        <img src="@item.ProductImage" class="card-img-top" style="height: 150px; object-fit: contain; padding: 10px;" />
+                    </a>
+                    <div class="card-body p-2 text-center">
+                        <h6 class="text-truncate">@item.ProductName</h6>
+                        <p class="text-danger mb-0">@item.ProductPrice.ToString("N0") VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

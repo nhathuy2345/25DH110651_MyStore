@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Đăng nhập";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
 <div class="container mt-5 mb-5">
@@ -18,7 +18,7 @@
                         </div>
                     }
 
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
 

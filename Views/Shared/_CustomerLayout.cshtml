@@ -4,90 +4,50 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My Store</title>
-
-    <!-- SỬA Ở ĐÂY: Dùng Bootstrap 3 và FontAwesome 4 để khớp với class trong slide -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-    <!-- Link tới file CSS của bạn -->
-    <link rel="stylesheet" href="~/Content/CustomerHome.css" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* Chỉnh lại khoảng cách để không bị thanh menu đè lên nội dung */
-        body {
-            padding-top: 100px;
+        .top-banner {
+            background-color: #a3e635;
+            color: #000;
+            text-align: center;
+            padding: 8px 0;
+            font-weight: 500;
+            font-size: 14px;
         }
-        /* Chỉnh màu nền thanh menu trên cùng */
-        .navbar-default {
-            background-color: white;
-            border-color: transparent;
+
+        .navbar-brand {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #333 !important;
         }
     </style>
 </head>
 <body>
-    <!-- Khối Header tổng -->
-    <div class="navbar navbar-default navbar-fixed-top">
-        <!-- BANNER VOUCHER XANH -->
-        <header class="container" style="background-color:lightgreen;">
-            <div style="text-align:center; color:green; padding: 5px 0;">
-                Free ship đơn từ 40k, giảm nhiều hơn cùng
-                <span style="font-weight:bold; font-style:italic;">
-                    <span style="color:blue;">FREESHIP</span> XTRA
-                </span>
-            </div>
-        </header>
-
-        <!-- Thanh Menu (Logo và các icon) -->
-        <div class="container" style="padding-top: 10px; padding-bottom: 10px;">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- Logo -->
-                <a href="@Url.Action("Index", "Home")" class="navbar-brand" style="font-weight:bold; font-size: 24px; color: black;">FASTOR</a>
-            </div>
-
-            <div class="navbar-collapse collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <!-- Menu Danh mục (Sẽ làm sau) -->
-                    <li><a href="#">Danh mục sản phẩm</a></li>
-
-                    <!-- Menu Trang chủ -->
-                    <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Trang chủ</a></li>
-
-                    <!-- Menu Tài khoản -->
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i> Tài khoản
-                        </a>
-                    </li>
-
-                    <!-- Menu Giỏ hàng -->
-                    <li>
-                        <a href="@Url.Action("Index", "Cart")">
-                            <i class="fa fa-shopping-cart"></i> Giỏ hàng (0)
-                        </a>
-                    </li>
+    <div class="top-banner">Free ship đơn từ 40k, giảm nhiều hơn cùng <strong>FREESHIP XTRA</strong></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">FASTOR</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @Html.Action("MenuCategories", "Home")
                 </ul>
+                @if (ViewBag.pmmodel != null)
+                {
+                    @Html.Partial("PersonalMenuPV", (_25DH110651_MyStore.Models.ViewModel.PersonalMenuVM)ViewBag.pmmodel)
+                }
             </div>
         </div>
-    </div>
-
-    <!-- Body (Phần nội dung thay đổi) -->
-    <div class="container" style="margin-top: 20px;">
-        @RenderBody()
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-light py-4 mt-5 text-center" style="background-color: #f8f9fa; padding: 20px 0; margin-top: 50px; border-top: 1px solid #ddd;">
-        <p class="mb-1" style="margin: 0;">©2026 - 25DH110651_MyStore</p>
-        <p class="mb-0" style="margin: 0;">Nguyễn Đình Nhật Huy</p>
+    </nav>
+    <div class="container mt-4" style="min-height: 600px;">@RenderBody()</div>
+    <footer class="bg-dark text-white py-4 mt-5 text-center">
+        <p>&copy; @DateTime.Now.Year - My Store</p>
+        <p>Thành viên nhóm: Nguyễn Đình Nhật Huy</p>
     </footer>
-
-    <!-- Thêm Javascript của Bootstrap 3 để menu dropdown hoạt động -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

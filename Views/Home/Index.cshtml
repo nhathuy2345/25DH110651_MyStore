@@ -1,27 +1,57 @@
 ﻿@model _25DH110651_MyStore.Models.ViewModel.HomeProductVm
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Trang chủ";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
-<section class="banner">
-    <div class="banner-container">
-        <h2>Chào mừng đến trang web E-commerce</h2>
-        <p>Mua sắm trực tuyến với hàng ngàn sản phẩm đa dạng và chất lượng</p>
-        <a href="#" class="btnBanner">Bắt đầu mua sắm</a>
+<div class="container mt-3">
+    <form method="get" action="@Url.Action("Index", "Home")" class="d-flex mb-4">
+        <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control me-2" placeholder="Nhập tên sản phẩm cần tìm..." />
+        <button type="submit" class="btn btn-danger">Tìm kiếm</button>
+    </form>
+
+    <h3 class="text-center text-danger">Sản phẩm nổi bật</h3>
+    <div class="row">
+        @foreach (var item in Model.FeaturedProducts)
+        {
+            <div class="col-md-2 mb-3">
+                <div class="card h-100">
+                    <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })">
+                        <img src="@item.ProductImage" class="card-img-top" alt="@item.ProductName" style="height:150px; object-fit:cover;">
+                    </a>
+                    <div class="card-body p-2">
+                        <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })" class="text-decoration-none text-dark">
+                            <h6 class="card-title text-truncate" title="@item.ProductName">@item.ProductName</h6>
+                        </a>
+                        <p class="text-danger mb-0 font-weight-bold">@item.ProductPrice.ToString("N0") VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-</section>
 
-<section class="searchProd">
-    <h2>Tìm kiếm sản phẩm</h2>
-    <div class="search-container">
-        <input type="text" class="search-input" placeholder="Nhập từ khóa ..." />
-        <button class="search-button">Tìm kiếm</button>
+    <h3 class="text-center text-danger mt-4">Sản phẩm mới</h3>
+    <div class="row">
+        @foreach (var item in Model.NewProducts)
+        {
+            <div class="col-md-2 mb-3">
+                <div class="card h-100">
+                    <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })">
+                        <img src="@item.ProductImage" class="card-img-top" alt="@item.ProductName" style="height:150px; object-fit:cover;">
+                    </a>
+                    <div class="card-body p-2">
+                        <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })" class="text-decoration-none text-dark">
+                            <h6 class="card-title text-truncate" title="@item.ProductName">@item.ProductName</h6>
+                        </a>
+                        <p class="text-danger mb-0 font-weight-bold">@item.ProductPrice.ToString("N0") VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-</section>
 
-<hr />
-
-@Html.Partial("_PVFeatureProduct", Model)
-<hr />
-@Html.Partial("_PVNewProduct", Model)
+    <div class="d-flex justify-content-center mt-4">
+        @Html.PagedListPager(Model.NewProducts, page => Url.Action("Index", new { page, searchTerm = Model.SearchTerm }))
+    </div>
+</div>

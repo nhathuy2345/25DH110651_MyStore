@@ -1,0 +1,45 @@
+﻿@model IEnumerable<_25DH110651_MyStore.Models.Order>
+@{
+    ViewBag.Title = "Lịch sử mua hàng";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>ĐƠN HÀNG CỦA TÔI</h2>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Bạn chưa có đơn hàng nào.</div>
+    }
+    else
+    {
+        foreach (var order in Model)
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                    <span>
+                        <strong>Mã đơn:</strong> #@order.OrderID <br />
+                        <small class="text-muted">Ngày đặt: @order.OrderDate.ToString("dd/MM/yyyy HH:mm")</small>
+                    </span>
+                    <span class="badge bg-primary">@order.PaymentStatus</span>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in order.OrderDetails)
+                    {
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-md-2"><img src="@item.Product.ProductImage" style="max-height: 80px; max-width: 100%;" /></div>
+                            <div class="col-md-6">
+                                <h6 class="mb-0">@item.Product.ProductName</h6>
+                                <small>Số lượng: @item.Quantity</small>
+                            </div>
+                            <div class="col-md-4 text-end"><span class="text-danger fw-bold">@item.TotalPrice.Value.ToString("N0") VNĐ</span></div>
+                        </div>
+                    }
+                    <hr />
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div><strong>Tổng tiền: </strong> <span class="text-danger fs-5 fw-bold">@order.TotalAmount.ToString("N0") VNĐ</span></div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
