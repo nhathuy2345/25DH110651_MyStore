@@ -29,7 +29,7 @@ namespace _25DH110651_MyStore.Controllers
                 ShippingAddress = customer.CustomerAddress,
                 OrderDate = DateTime.Now,
                 TotalAmount = cart.TotalValue(),
-                PaymentStatus = "Pending"
+                PaymentStatus = "Chưa Thanh Toán"
             };
 
             var pmmodel = new PersonalMenuVM();

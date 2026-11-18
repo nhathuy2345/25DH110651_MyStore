@@ -1,0 +1,135 @@
+﻿@model _25DH110651_MyStore.Models.Order
+@using _25DH110651_MyStore.Models
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml"; // Chỉnh lại đường dẫn Layout của bạn
+}
+
+<style>
+    /* CSS nhỏ để căn chỉnh chữ cho giống ảnh */
+    .info-label {
+        font-weight: bold;
+        text-align: right;
+        padding-right: 15px;
+        width: 40%;
+    }
+
+    .info-value {
+        text-align: left;
+        width: 60%;
+    }
+
+    .info-table td {
+        padding-bottom: 8px;
+        vertical-align: top;
+    }
+
+    .product-img {
+        width: 80px;
+        height: auto;
+        object-fit: cover;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<div class="container-fluid mt-4">
+    <h2 class="mb-4">CHI TIẾT ĐƠN HÀNG</h2>
+
+    <div class="row">
+        <!-- CỘT TRÁI: THÔNG TIN ĐƠN HÀNG -->
+        <div class="col-md-4">
+            <h5 class="text-center mb-3">THÔNG TIN ĐƠN HÀNG</h5>
+            <table class="table table-borderless info-table">
+                <tr>
+                    <td class="info-label">Ngày đặt hàng</td>
+                    <!-- Sửa lỗi 1/1/0001: Nếu năm > 1 thì mới format -->
+                    <td class="info-value">
+                        @(Model.OrderDate.Year > 1 ? Model.OrderDate.ToString("dd/MM/yyyy") : "Chưa cập nhật")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-label">Tên khách hàng</td>
+                    <td class="info-value">@Model.Customer.CustomerName</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Tổng giá trị</td>
+                    <td class="info-value">@String.Format("{0:N0}", Model.TotalAmount)</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Phương thức thanh toán</td>
+                    <!-- DB không có cột này, mình để tạm text tĩnh hoặc bạn tự map -->
+                    <td class="info-value">Thanh toán khi nhận hàng</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Trạng thái thanh toán</td>
+                    <td class="info-value">@Model.PaymentStatus</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Phương thức giao hàng</td>
+                    <!-- DB không có cột này, để tạm -->
+                    <td class="info-value">Giao hàng nhanh</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Địa chỉ giao hàng</td>
+                    <td class="info-value">@Model.ShippingAddress</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- CỘT PHẢI: DANH SÁCH SẢN PHẨM -->
+        <div class="col-md-8">
+            <table class="table table-hover">
+                <thead>
+                    <tr style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+                        <th class="w-50">Sản phẩm</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-right">Đơn giá</th>
+                        <th class="text-right">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderDetails)
+                    {
+                        // Tính thành tiền = Số lượng * Đơn giá
+                        var subTotal = item.Quantity * item.UnitPrice;
+
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <!-- Hiển thị ảnh nếu có, nếu không thì hiện ảnh mặc định -->
+                                    @if (!string.IsNullOrEmpty(item.Product.ProductImage))
+                                    {
+                                        <img src="@Url.Content(item.Product.ProductImage)" class="product-img mr-3" alt="img" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/no-image.png" class="product-img mr-3" alt="no-img" />
+                                    }
+                                    <span>@item.Product.ProductName</span>
+                                </div>
+                            </td>
+                            <td class="text-center">@item.Quantity</td>
+                            <td class="text-right">@String.Format("{0:N0}", item.UnitPrice)</td>
+                            <td class="text-right">@String.Format("{0:N0}", subTotal)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CÁC NÚT BẤM DƯỚI CÙNG -->
+    <div class="row mt-4 mb-5">
+        <div class="col-md-12">
+            <!-- Nút Cập nhật trạng thái (Bạn có thể mở Modal hoặc chuyển trang tùy ý) -->
+            <a href="@Url.Action("UpdateStatus", "Orders", new { area = "Admin", id = Model.OrderID })" class="btn btn-primary">
+                Cập nhật trạng thái
+            </a>
+
+            <!-- Nút Quay lại danh sách -->
+            <a href="@Url.Action("Index", "Orders", new { area = "Admin" })" class="btn btn-primary ml-2">
+                Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>

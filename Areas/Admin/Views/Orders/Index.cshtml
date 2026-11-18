@@ -1,0 +1,109 @@
+﻿@model PagedList.IPagedList<_25DH110651_MyStore.Models.Order>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml"; // Thay bằng Layout Admin của bạn
+}
+
+<div class="container-fluid mt-4">
+    <h2 class="mb-4 font-weight-bold">DANH SÁCH ĐƠN HÀNG</h2>
+
+    <!-- Form Tìm Kiếm -->
+    <!-- ĐÃ SỬA: Thêm new { area = "Admin" } -->
+    @using (Html.BeginForm("Index", "Orders", new { area = "Admin" }, FormMethod.Get, new { @class = "mb-4" }))
+    {
+        <div class="row align-items-end">
+            <!-- Tên khách hàng -->
+            <div class="col-md-3">
+                <label class="font-weight-bold">Tên khách hàng</label>
+                <input type="text" name="customerName" value="@ViewBag.CustomerName" class="form-control" placeholder="Nhập tên khách hàng..." />
+            </div>
+
+            <!-- Trạng thái thanh toán -->
+            <div class="col-md-3">
+                <label class="font-weight-bold">Trạng thái thanh toán</label>
+                <select name="paymentStatus" class="form-control">
+                    <option value="">-- Tất cả --</option>
+                    <option value="Chưa thanh toán" @(ViewBag.PaymentStatus == "Chưa thanh toán" ? "selected" : "")>Chưa thanh toán</option>
+                    <option value="Thanh toán tiền mặt" @(ViewBag.PaymentStatus == "Thanh toán tiền mặt" ? "selected" : "")>Thanh toán tiền mặt</option>
+                    <option value="Đã thanh toán" @(ViewBag.PaymentStatus == "Đã thanh toán" ? "selected" : "")>Đã thanh toán</option>
+                </select>
+            </div>
+
+            <!-- Ngày đặt hàng -->
+            <div class="col-md-3">
+                <label class="font-weight-bold">Ngày đặt hàng</label>
+                <input type="date" name="orderDate" value="@ViewBag.OrderDate" class="form-control" />
+            </div>
+
+            <!-- Nút Tìm kiếm -->
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="fa fa-search"></i> Tìm kiếm
+                </button>
+            </div>
+        </div>
+    }
+
+    <!-- Bảng Danh Sách -->
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered table-hover">
+            <thead style="background-color: #e2f0d9;">
+                <!-- Màu xanh nhạt giống ảnh -->
+                <tr>
+                    <th>Ngày đặt hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Tổng giá trị</th>
+                    <th>Trạng thái thanh toán</th>
+                    <th>Phương thức giao hàng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-danger">Không có</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr style="background-color: #f2f9ff;">
+                            <!-- Màu xanh lơ giống ảnh -->
+                            <!-- Định dạng lại ngày tháng, tránh lỗi 1/1/0001 như trong ảnh -->
+                            <td>@(item.OrderDate.Year > 1 ? item.OrderDate.ToString("dd/MM/yyyy") : "N/A")</td>
+                            <td>@item.Customer.CustomerName</td>
+                            <td>@String.Format("{0:N0}", item.TotalAmount)</td>
+                            <td>@item.PaymentStatus</td>
+
+                            <!-- ĐÃ SỬA: Lấy dữ liệu từ Database thay vì hardcode -->
+                            <td>@(string.IsNullOrEmpty(item.DeliveryMethod) ? "Chưa cập nhật" : item.DeliveryMethod)</td>
+
+                            <td>
+                                <!-- ĐÃ SỬA: Thêm area = "Admin" -->
+                                <a href="@Url.Action("DetailedOrder", "Orders", new { area = "Admin", id = item.OrderID })" class="text-primary">
+                                    Chi tiết đơn hàng
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Phân Trang -->
+    <div class="d-flex justify-content-center mt-4">
+        <!-- ĐÃ SỬA: Thêm area = "Admin" -->
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            area = "Admin",
+            page = page,
+            customerName = ViewBag.CustomerName,
+            paymentStatus = ViewBag.PaymentStatus,
+            orderDate = ViewBag.OrderDate
+        }))
+    </div>
+</div>
